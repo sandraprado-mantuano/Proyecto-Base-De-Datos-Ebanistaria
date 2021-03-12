@@ -1,0 +1,18 @@
+--Declarar los variables
+DECLARE @Tipo VARCHAR(15), @Nombre VARCHAR(15);
+ 
+DECLARE CursorUno CURSOR FOR --Declarar el CURSOR
+SELECT tipo_persona, nombre FROM persona; --Consulta de datos, el resultado será recorrido por el CURSOR
+ 
+OPEN CursorUno --Abrir el CURSOR
+    FETCH NEXT FROM CursorUno INTO @Tipo, @Nombre --Leer primera fila de la consulta SELECT
+ 
+    WHILE @@FETCH_STATUS = 0 BEGIN
+        PRINT @Tipo + ' ' + @Nombre --Ejecutar operaciones
+ 
+        FETCH NEXT FROM CursorUno INTO @Tipo, @Nombre --Leer la fila siguiente de la consulta SELECT
+    END --Fin del WHILE
+ 
+CLOSE CursorUno --Cerrar el CURSOR
+DEALLOCATE CursorUno --Liberar recursos
+

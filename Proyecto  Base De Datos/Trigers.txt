@@ -1,0 +1,33 @@
+CREATE TRIGGER AuditCreacionUsuarios
+ON usuario --Tabla a asignar el Trigger
+FOR INSERT --Evento que se desea lanzar Trigger
+AS
+--Código a ejecutar cuando se realice un INSERT en la tabla &amp;amp;amp;amp;quot;Usuarios&amp;amp;amp;amp;quot;:
+--Declarar variables
+DECLARE @idusuario INT
+DECLARE @idrol INT
+DECLARE @nombre VARCHAR(50)
+DECLARE @tipo_documento VARCHAR (20)
+DECLARE @num_documento INT
+DECLARE @direccion VARCHAR(50)
+DECLARE @telefono INT
+DECLARE @email VARCHAR(50)
+DECLARE @password VARCHAR(50)
+DECLARE @usuarioCreador VARCHAR(100)
+DECLARE @Fecha DATETIME
+--Asignar varibles
+SET @idusuario = (SELECT idusuario FROM Inserted)
+SET @idrol = (SELECT idrol FROM Inserted)
+SET @nombre = (SELECT nombre FROM Inserted)
+SET @tipo_documento = (SELECT tipo_documento FROM Inserted)
+SET @num_documento = (SELECT num_documento FROM Inserted)
+SET @telefono = (SELECT telefono FROM Inserted)
+SET @email = (SELECT email FROM Inserted)
+SET @password = (SELECT password FROM Inserted)
+SET @usuarioCreador = (SELECT system_user)
+SET @Fecha = (SELECT GETDATE())
+ 
+--Insertar en tabla AuditoriaTblUsuarios
+INSERT INTO AuditoriaTblUsuarios(idusuario, idrol, nombre, tipo_documento, num_documento, direccion, telefono, email, usuarioCreador, Fecha)
+VALUES (@idusuario, @idrol, @nombre, @tipo_documento, @num_documento, @direccion, @telefono, @email, @usuarioCreador, @Fecha)
+GO
